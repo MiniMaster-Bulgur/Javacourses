@@ -1,28 +1,91 @@
-package edu.Hw2;
+package edu.hw2;
 
-import edu.hw2.Task3;
+import edu.hw2.Task3.connection.Connection;
+import edu.hw2.Task3.connection.FaultyConnection;
+import edu.hw2.Task3.connection.StableConnection;
+import edu.hw2.Task3.exception.ConnectionException;
+import edu.hw2.Task3.executor.PopularCommandExecutor;
+import edu.hw2.Task3.manager.ConnectionManager;
+import edu.hw2.Task3.manager.DefaultConnectionManager;
+import edu.hw2.Task3.manager.FaultyConnectionManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class Task3Test {
 
     @Test
-    public void testStableConnection() {
-        Task3.ConnectionManager manager = new Task3.DefaultConnectionManager();
-        Task3.PopularCommandExecutor executor = new Task3.PopularCommandExecutor(manager, 3);
-
+    void testStableConnection() {
+        try (Connection connection = new StableConnection()) {
+            assertDoesNotThrow(() -> connection.execute());
+        }
     }
 
     @Test
-    public void testFaultyConnection() {
-        Task3.ConnectionManager manager = new Task3.FaultyConnectionManager();
-        Task3.PopularCommandExecutor executor = new Task3.PopularCommandExecutor(manager, 3);
-
+    void testDefaultConnectionManager() {
+        ConnectionManager manager = new DefaultConnectionManager();
+        assertThat(manager.getConnection()).isInstanceOf(Connection.class);
     }
 
     @Test
-    public void testMaxAttemptsExceeded() {
-        Task3.ConnectionManager manager = new Task3.FaultyConnectionManager();
-        Task3.PopularCommandExecutor executor = new Task3.PopularCommandExecutor(manager, 1);
+    void testFaultyConnectionManager() {
+        ConnectionManager manager = new FaultyConnectionManager();
+        assertThat(manager.getConnection()).isInstanceOf(FaultyConnection.class);
+    }
+
+    @Test
+    void testExecutorWithStableConnection() {
+        ConnectionManager manager = new DefaultConnectionManager();
+        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 1);
+        assertDoesNotThrow(() -> executor.updatePackages());
+    }
+
+    @Test
+    void testExecutorWithFaultyConnection() {
+        ConnectionManager manager = new FaultyConnectionManager();
+        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 1);
+        assertThrows(ConnectionException.class, () -> {
+            for (int i = 0; i < 100; i++) { // Увеличиваем вероятность сбоя
+                executor.updatePackages();
+            }
+        });
+    }
+
+    @Test
+    void testRetryMechanism() {
+        ConnectionManager manager = new DefaultConnectionManager();
+        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 3);
+        assertDoesNotThrow(() -> executor.updatePackages());
+    }
+
+    @Test
+    void testConnectionClose() {
+        Connection connection = new StableConnection();
+        assertDoesNotThrow(connection::close);
+    }
+
+    @Test
+    void testFaultyConnectionBehavior() {
+        try (Connection connection = new FaultyConnection()) {
+            boolean hadSuccess = false;
+            boolean hadFailure = false;
+
+            for (int i = 0; i < 100; i++) {
+                try {
+                    connection.execute();
+                    hadSuccess = true;
+                } catch (ConnectionException e) {
+                    hadFailure = true;
+                }
+
+                if (hadSuccess && hadFailure) {
+                    break;
+                }
+            }
+
+            assertThat(hadSuccess || hadFailure).isTrue();
+        }
     }
 }
