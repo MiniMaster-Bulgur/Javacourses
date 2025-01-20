@@ -1,53 +1,66 @@
-package edu.Hw2;
+package edu.hw2;
 
-import edu.hw2.Task1;
+import edu.hw2.task1.expression.Addition;
+import edu.hw2.task1.expression.Constant;
+import edu.hw2.task1.expression.Expr;
+import edu.hw2.task1.expression.Exponent;
+import edu.hw2.task1.expression.Multiplication;
+import edu.hw2.task1.expression.Negate;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class Task1Test {
 
-
-@Test
-    public void testConstant() {
-        Task1.Expr expr = new Task1.Constant(5);
-        assertEquals(5, expr.evaluate());
+    @Test
+    void testConstant() {
+        Expr constant = new Constant(5);
+        assertThat(constant.evaluate()).isEqualTo(5.0);
     }
 
     @Test
-    public void testNegate() {
-        Task1.Expr expr = new Task1.Negate(new Task1.Constant(5));
-        assertEquals(-5, expr.evaluate());
+    void testNegate() {
+        Expr negation = new Negate(new Constant(5));
+        assertThat(negation.evaluate()).isEqualTo(-5.0);
     }
 
     @Test
-    public void testExponent() {
-        Task1.Expr expr = new Task1.Exponent(new Task1.Constant(2), 3);
-        assertEquals(8, expr.evaluate());
+    void testExponent() {
+        Expr exponent = new Exponent(new Constant(2), 3);
+        assertThat(exponent.evaluate()).isEqualTo(8.0);
     }
 
     @Test
-    public void testAddition() {
-        Task1.Expr expr;
-        expr = new Task1.Addition(new Task1.Constant(2), new Task1.Constant(3));
-        assertEquals(5, expr.evaluate());
+    void testAddition() {
+        Expr addition = new Addition(new Constant(5), new Constant(3));
+        assertThat(addition.evaluate()).isEqualTo(8.0);
     }
 
     @Test
-    public void testMultiplication() {
-        Task1.Expr expr = new Task1.Multiplication(new Task1.Constant(2), new Task1.Constant(3));
-        assertEquals(6, expr.evaluate());
+    void testMultiplication() {
+        Expr multiplication = new Multiplication(new Constant(4), new Constant(2));
+        assertThat(multiplication.evaluate()).isEqualTo(8.0);
     }
 
     @Test
-    public void testComplexExpression() {
-        Task1.Expr two = new Task1.Constant(2);
-        Task1.Expr four = new Task1.Constant(4);
-        Task1.Expr negOne = new Task1.Negate(new Task1.Constant(1));
-        Task1.Expr sumTwoFour = new Task1.Addition(two, four);
-        Task1.Expr mult = new Task1.Multiplication(sumTwoFour, negOne);
-        Task1.Expr exp = new Task1.Exponent(mult, 2);
-        Task1.Expr res = new Task1.Addition(exp, new Task1.Constant(1));
-        assertEquals(37, res.evaluate());
+    void testComplexExpression() {
+        Expr complex = new Exponent(
+            new Negate(
+                new Multiplication(
+                    new Addition(
+                        new Constant(2),
+                        new Constant(4)
+                    ),
+                    new Constant(1)
+                )
+            ),
+            2
+        );
+        assertThat(complex.evaluate()).isEqualTo(36.0);
     }
-   }
+
+    @Test
+    void testToString() {
+        Expr expr = new Addition(new Constant(2), new Multiplication(new Constant(3), new Constant(4)));
+        assertThat(expr.toString()).isEqualTo();
+    }
+}

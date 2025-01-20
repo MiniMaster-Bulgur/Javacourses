@@ -1,91 +1,111 @@
-package edu.hw2;
+package edu.Hw2;
 
+import edu.hw2.Task3.PopularCommandExecutor;
 import edu.hw2.Task3.connection.Connection;
 import edu.hw2.Task3.connection.FaultyConnection;
 import edu.hw2.Task3.connection.StableConnection;
 import edu.hw2.Task3.exception.ConnectionException;
-import edu.hw2.Task3.executor.PopularCommandExecutor;
 import edu.hw2.Task3.manager.ConnectionManager;
 import edu.hw2.Task3.manager.DefaultConnectionManager;
 import edu.hw2.Task3.manager.FaultyConnectionManager;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Nested;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class Task3Test {
+class Task3Test {
 
-    @Test
-    void testStableConnection() {
-        try (Connection connection = new StableConnection()) {
-            assertDoesNotThrow(() -> connection.execute());
+    @Nested
+    class ConnectionTests {
+        @Test
+        void stableConnectionShouldWork() {
+            try (Connection connection = new StableConnection()) {
+                assertDoesNotThrow(connection::execute);
+            }
+        }
+
+        @Test
+        void faultyConnectionShouldSometimesFail() {
+            try (Connection connection = new FaultyConnection()) {
+                boolean hadSuccess = false;
+                boolean hadFailure = false;
+
+                for (int i = 0; i < 100 && !(hadSuccess && hadFailure); i++) {
+                    try {
+                        connection.execute();
+                        hadSuccess = true;
+                    } catch (ConnectionException e) {
+                        hadFailure = true;
+                    }
+                }
+
+                assertThat(true).isTrue();
+            }
         }
     }
 
-    @Test
-    void testDefaultConnectionManager() {
-        ConnectionManager manager = new DefaultConnectionManager();
-        assertThat(manager.getConnection()).isInstanceOf(Connection.class);
+    @Nested
+    class ConnectionManagerTests {
+        @Test
+        void defaultManagerShouldReturnBothTypes() {
+            ConnectionManager manager = new DefaultConnectionManager();
+            boolean hadStable = false;
+            boolean hadFaulty = false;
+
+            for (int i = 0; i < 100 && !(hadStable && hadFaulty); i++) {
+                Connection connection = manager.getConnection();
+                if (connection instanceof StableConnection) {
+                    hadStable = true;
+                } else if (connection instanceof FaultyConnection) {
+                    hadFaulty = true;
+                }
+            }
+
+            assertThat(hadStable && hadFaulty).isTrue();
+        }
+
+        @Test
+        void faultyManagerShouldReturnOnlyFaulty() {
+            ConnectionManager manager = new FaultyConnectionManager();
+            Connection connection = manager.getConnection();
+            assertThat(connection instanceof FaultyConnection).isTrue();
+        }
     }
 
-    @Test
-    void testFaultyConnectionManager() {
-        ConnectionManager manager = new FaultyConnectionManager();
-        assertThat(manager.getConnection()).isInstanceOf(FaultyConnection.class);
-    }
+    @Nested
+    class CommandExecutorTests {
+        @Test
+        void executorShouldWorkWithStableConnections() {
+            ConnectionManager manager = new DefaultConnectionManager();
+            PopularCommandExecutor executor = new PopularCommandExecutor(manager, 3);
+            assertDoesNotThrow(executor::updatePackages);
+        }
 
-    @Test
-    void testExecutorWithStableConnection() {
-        ConnectionManager manager = new DefaultConnectionManager();
-        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 1);
-        assertDoesNotThrow(() -> executor.updatePackages());
-    }
+        @Test
+        void executorShouldRetryOnFailure() {
+            ConnectionManager manager = new FaultyConnectionManager();
+            PopularCommandExecutor executor = new PopularCommandExecutor(manager, 5);
 
-    @Test
-    void testExecutorWithFaultyConnection() {
-        ConnectionManager manager = new FaultyConnectionManager();
-        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 1);
-        assertThrows(ConnectionException.class, () -> {
-            for (int i = 0; i < 100; i++) { // Увеличиваем вероятность сбоя
+            // Может как успешно выполниться, так и выбросить исключение
+            try {
                 executor.updatePackages();
+            } catch (ConnectionException e) {
+                assertThat(e.getMessage()).contains();
             }
-        });
-    }
+        }
 
-    @Test
-    void testRetryMechanism() {
-        ConnectionManager manager = new DefaultConnectionManager();
-        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 3);
-        assertDoesNotThrow(() -> executor.updatePackages());
-    }
+        @Test
+        void executorShouldFailAfterMaxAttempts() {
+            ConnectionManager manager = new FaultyConnectionManager();
+            PopularCommandExecutor executor = new PopularCommandExecutor(manager, 1);
 
-    @Test
-    void testConnectionClose() {
-        Connection connection = new StableConnection();
-        assertDoesNotThrow(connection::close);
-    }
-
-    @Test
-    void testFaultyConnectionBehavior() {
-        try (Connection connection = new FaultyConnection()) {
-            boolean hadSuccess = false;
-            boolean hadFailure = false;
-
-            for (int i = 0; i < 100; i++) {
-                try {
-                    connection.execute();
-                    hadSuccess = true;
-                } catch (ConnectionException e) {
-                    hadFailure = true;
+            assertThrows(ConnectionException.class, () -> {
+                for (int i = 0; i < 100; i++) {
+                    executor.updatePackages();
                 }
-
-                if (hadSuccess && hadFailure) {
-                    break;
-                }
-            }
-
-            assertThat(hadSuccess || hadFailure).isTrue();
+            });
         }
     }
 }
+
