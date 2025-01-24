@@ -8,7 +8,7 @@ public record Multiplication(Expr left, Expr right) implements Expr {
     @Override
     public double evaluate() {
         double result = left.evaluate() * right.evaluate();
-        LOGGER.info("Evaluating Multiplication: " + left + " * " + right + " = " + result);
+        LOGGER.info(STR."Evaluating Multiplication: \{left} * \{right} = \{result}");
         return result;
     }
 
