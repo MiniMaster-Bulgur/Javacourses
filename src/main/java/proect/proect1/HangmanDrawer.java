@@ -1,0 +1,63 @@
+package proect.proect1;
+
+import java.util.Arrays;
+
+public class HangmanDrawer {
+
+    private final String[][] hangmanDrawingMatrix = new String[8][8]; /* razmer */
+
+    public HangmanDrawer() {
+        clearDrawing(); /* sterka */
+    }
+
+    public void printHangman() {
+        for (String[] drawingMatrixRaw : hangmanDrawingMatrix) {
+            for (int i = 0; i < drawingMatrixRaw.length; i++) {
+                System.out.print(drawingMatrixRaw[i]);
+                if (i == drawingMatrixRaw.length - 1) System.out.print("\n"); /* если последний эл. строки -> перенос */
+            }
+        }
+    }
+
+    public void updateHangmanDrawingMatrix(int numbarOfMistakes) { /* текущ. кол-во ошибок */
+        switch (numbarOfMistakes) {
+            case (1) -> {
+                hangmanDrawingMatrix[7][0] = "/";
+                hangmanDrawingMatrix[7][1] = "-";
+                hangmanDrawingMatrix[7][2] = "\\";
+                hangmanDrawingMatrix[6][2] = "|";
+                hangmanDrawingMatrix[5][2] = "|";
+                hangmanDrawingMatrix[4][2] = "|";
+                hangmanDrawingMatrix[3][2] = "|";
+            }
+            case (2) -> {
+                hangmanDrawingMatrix[2][1] = "|";
+                hangmanDrawingMatrix[1][1] = "|";
+                hangmanDrawingMatrix[0][2] = "_";
+            }
+            case (3) -> {
+                hangmanDrawingMatrix[0][3] = "_";
+                hangmanDrawingMatrix[0][5] = "_";
+                hangmanDrawingMatrix[0][4] = "_";
+                hangmanDrawingMatrix[1][7] = "|";
+            }
+            case (4) -> {
+                hangmanDrawingMatrix[2][4] = "(";
+                hangmanDrawingMatrix[2][5] = ")";
+                hangmanDrawingMatrix[3][4] = "/";
+                hangmanDrawingMatrix[3][5] = "\\";
+            }
+            case (5) -> {
+                hangmanDrawingMatrix[4][5] = "|";
+                hangmanDrawingMatrix[5][4] = "/";
+                hangmanDrawingMatrix[5][5] = "\\";
+            }
+        }
+    }
+
+    public void clearDrawing() {
+        for (String[] drawingMatrixRow : hangmanDrawingMatrix) {
+            Arrays.fill(drawingMatrixRow, "");
+        }
+    }
+}
