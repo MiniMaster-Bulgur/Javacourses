@@ -86,7 +86,7 @@ class Task1Test {
     @Test
     void testGetTotalPaws() {
         Integer result = Task1.getTotalPaws(animals);
-        assertEquals(18, result); // 4 + 4 + 2 + 0 + 8 = 18
+        assertEquals(18, result);
     }
 
     @Test
@@ -98,7 +98,7 @@ class Task1Test {
     @Test
     void testGetBitingAnimalsAbove100cm() {
         List<Animal> result = Task1.getBitingAnimalsAbove100cm(animals);
-        assertTrue(result.isEmpty()); // нет животных выше 100 см
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -128,13 +128,13 @@ class Task1Test {
     @Test
     void testSortAnimalsByTypeSexName() {
         List<Animal> result = Task1.sortAnimalsByTypeSexName(animals);
-        assertEquals("Small Bird", result.get(0).getName()); // BIRD должна быть первой по алфавиту типов
+        assertEquals("Small Bird", result.get(0).getName())
     }
 
     @Test
     void testDoSpidersBiteMoreThanDogs() {
         Boolean result = Task1.doSpidersBiteMoreThanDogs(animals);
-        assertFalse(result); // у нас одинаковое количество кусающихся пауков и собак
+        assertFalse(result);
     }
 
     @Test
@@ -152,11 +152,9 @@ class Task1Test {
         Animal invalidAnimal = new Animal("", Animal.Type.CAT, Animal.Sex.M, -1, -5, -5, false);
         List<Animal> testAnimals = Arrays.asList(invalidAnimal);
 
-        // Проверяем наличие ошибок валидации
         Set<ValidationError> errors = Task1.validateAnimal(invalidAnimal);
         assertFalse(errors.isEmpty());
 
-        // Проверяем конкретные ошибки
         boolean hasNameError = errors.stream()
             .anyMatch(e -> e.getFieldName().equals("name") &&
                 e.getMessage().equals("Name cannot be empty"));
