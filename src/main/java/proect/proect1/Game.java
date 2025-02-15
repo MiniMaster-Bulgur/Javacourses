@@ -1,0 +1,127 @@
+package proect.proect1;
+
+import java.util.Scanner;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.LogRecord;
+
+public class Game {
+
+    private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
+    private final HangmanDrawer hangmanDrawer = new HangmanDrawer();
+    private final RandomWordSelector wordSelector = new RandomWordSelector();
+    private final WordMaskOperator maskOperator = new WordMaskOperator();
+    private static final int MAX_MISTAKES = 6;
+
+    public Game() {
+        LOGGER.setUseParentHandlers(false);
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setFormatter(new SimpleFormatter() {
+            @Override
+            public String format(LogRecord record) {
+                return record.getMessage() + "\n";
+            }
+        });
+        LOGGER.addHandler(handler);
+    }
+
+    public void start() {
+        Scanner scanner = new Scanner(System.in);
+        LOGGER.info("Добро пожаловать в Виселицу!");
+
+        while (true) {
+            LOGGER.info("\nМеню: [N]овая игра / [E]выход");
+            String option = scanner.nextLine().trim().toUpperCase();
+
+            switch (option) {
+                case "N":
+                    playGame(scanner);
+                    break;
+                case "E":
+                    LOGGER.info("Спасибо за игру! До свидания!");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    LOGGER.warning("Неверный выбор. Пожалуйста, попробуйте снова.");
+            }
+        }
+    }
+
+    private void playGame(Scanner scanner) {
+        int mistakesCount = 0;
+        int correctGuesses = 0;
+        int incorrectGuesses = 0;
+        maskOperator.clearBuffer();
+        hangmanDrawer.clearDrawing();
+
+        String guessedWord = wordSelector.getRandomLySelectedWord();
+        maskOperator.setWord(guessedWord);
+
+        LOGGER.info("\n=== Новая игра начата ===");
+        LOGGER.info(String.format("Длина слова: %d букв", guessedWord.length()));
+        LOGGER.info("Слово: ");
+        maskOperator.printMask();
+
+        while (true) {
+            LOGGER.info("\nИспользованные буквы: " + maskOperator.getUsedLettersAsString());
+            LOGGER.info(String.format("Ошибки: %d/%d", mistakesCount, MAX_MISTAKES));
+            LOGGER.info(String.format("Угаданные буквы: %d", correctGuesses));
+            LOGGER.info(String.format("Неугаданные буквы: %d", incorrectGuesses));
+            hangmanDrawer.printHangman();
+
+            LOGGER.info("\nВведите букву: ");
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            if (input.contains(" ")) {
+                LOGGER.warning("Пожалуйста, пишите без пробелов!");
+                continue;
+            }
+
+            if (input.length() != 1 || !Character.isLetter(input.charAt(0))) {
+                LOGGER.warning("Пожалуйста, введите одну букву!");
+                continue;
+            }
+
+            if (maskOperator.isLetterAlreadyUsed(input)) {
+                LOGGER.warning("Вы уже пробовали эту букву!");
+                continue;
+            }
+
+            maskOperator.useUserInputLetter(input);
+
+            if (maskOperator.containsLetter(input)) {
+                correctGuesses++;
+                maskOperator.updateMask(input);
+                LOGGER.info("Правильно!");
+                LOGGER.info("Слово: ");
+                maskOperator.printMask();
+
+                if (maskOperator.userWon()) {
+                    LOGGER.info("\n=== ПОБЕДА! ===");
+                    LOGGER.info("Поздравляем! Вы выиграли!");
+                    LOGGER.info("Загаданное слово было: " + guessedWord);
+                    LOGGER.info(String.format("Всего угадано букв: %d", correctGuesses));
+                    LOGGER.info(String.format("Всего ошибок: %d", incorrectGuesses));
+                    LOGGER.info("================");
+                    return;
+                }
+            } else {
+                incorrectGuesses++;
+                mistakesCount++;
+                LOGGER.warning("Неверно!");
+                hangmanDrawer.updateHangmanDrawingMatrix(mistakesCount);
+
+                if (mistakesCount >= MAX_MISTAKES) {
+                    LOGGER.info("\n=== ИГРА ОКОНЧЕНА ===");
+                    LOGGER.info("Вы проиграли! Загаданное слово было: " + guessedWord);
+                    LOGGER.info(String.format("Всего угадано букв: %d", correctGuesses));
+                    LOGGER.info(String.format("Всего ошибок: %d", incorrectGuesses));
+                    LOGGER.info("================");
+                    return;
+                }
+            }
+        }
+    }
+}
