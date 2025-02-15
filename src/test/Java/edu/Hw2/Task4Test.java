@@ -1,6 +1,6 @@
 package edu.Hw2;
 
-import edu.hw2.Task4;
+import edu.hw1.Task1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

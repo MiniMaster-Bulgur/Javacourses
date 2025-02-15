@@ -158,48 +158,24 @@ public class Task1 {
             .orElse(null);
     }
 
-    // Задача 19
-    public static Map<String, Set<ValidationError>> findAnimalsWithErrors(List<Animal> animals) {
-        return animals.stream()
-            .collect(Collectors.toMap(
-                Animal::getName,
-                Task1::validateAnimal,
-                (set1, set2) -> set1,
-                () -> new HashMap<>()
-            ))
-            .entrySet().stream()
-            .filter(entry -> !entry.getValue().isEmpty())
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
     public static Set<ValidationError> validateAnimal(Animal animal) {
         Set<ValidationError> errors = new HashSet<>();
 
         if (animal.getName() == null || animal.getName().isEmpty()) {
-            errors.add(new ValidationError("name", "Name cannot be empty"));
+            errors.add(new ValidationError("name", "Имя не может быть пустым"));
         }
         if (animal.getAge() < 0) {
-            errors.add(new ValidationError("age", "Age cannot be negative"));
+            errors.add(new ValidationError("age", "Возраст не может быть отрицательным"));
         }
         if (animal.getHeight() <= 0) {
-            errors.add(new ValidationError("height", "Height must be positive"));
+            errors.add(new ValidationError("height", "Высота должна быть положительной"));
         }
         if (animal.getWeight() <= 0) {
-            errors.add(new ValidationError("weight", "Weight must be positive"));
+            errors.add(new ValidationError("weight", "Вес должен быть положительным"));
         }
 
         return errors;
     }
 
-    // Задача 20
-    public static Map<String, String> formatErrors(Map<String, Set<ValidationError>> errors) {
-        return errors.entrySet().stream()
-            .collect(Collectors.toMap(
-                Map.Entry::getKey,
-                entry -> entry.getValue().stream()
-                    .map(error -> error.getFieldName() + ": " + error.getMessage())
-                    .collect(Collectors.joining(", "))
-            ));
-    }
 }
 

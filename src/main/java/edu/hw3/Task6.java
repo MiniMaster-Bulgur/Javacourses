@@ -24,7 +24,7 @@ public class Task6 {
     }
 }
 
-public class Equity {
+class Equity {
     private final String name;
     private final double price;
 
