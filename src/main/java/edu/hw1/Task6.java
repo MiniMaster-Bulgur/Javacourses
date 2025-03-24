@@ -16,9 +16,6 @@ public final class Task6 {
 
     }
 
-    public static void main(final String[] ignoredArgs) {
-
-    }
 
     public static int kaprekarSteps(final int n) {
         if (n == KAPREKAR_CONSTANT) {

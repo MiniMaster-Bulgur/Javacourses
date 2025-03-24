@@ -28,10 +28,6 @@ public final class Task2 {
 
         return count;
     }
-
-    public static void main(final String[] ignoredArgs) {
-
-    }
 }
 
 

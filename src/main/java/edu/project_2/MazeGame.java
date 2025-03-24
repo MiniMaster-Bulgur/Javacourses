@@ -1,12 +1,12 @@
 package edu.project_2;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class MazeGame extends JPanel implements KeyListener {
     private static final int[][] MAZE = {
@@ -114,9 +114,6 @@ public class MazeGame extends JPanel implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
-
-    public static void main(String[] ignoredArgs) {
-
+    public void keyReleased(KeyEvent e) {
     }
 }
