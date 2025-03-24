@@ -21,8 +21,12 @@ public class ValidationError {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ValidationError that = (ValidationError) o;
         return Objects.equals(fieldName, that.fieldName) &&
             Objects.equals(message, that.message);

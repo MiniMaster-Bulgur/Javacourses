@@ -9,6 +9,11 @@ public class Animal {
     private final int weight;
     private final boolean bites;
 
+    private static final int CAT_DOG_PAWS = 4;
+    private static final int BIRD_PAWS = 2;
+    private static final int FISH_PAWS = 0;
+    private static final int SPIDER_PAWS = 8;
+
     public Animal(String name, Type type, Sex sex, int age, int height, int weight, boolean bites) {
         this.name = name;
         this.type = type;
@@ -57,10 +62,10 @@ public class Animal {
 
     public int paws() {
         return switch (type) {
-            case CAT, DOG -> 4;
-            case BIRD -> 2;
-            case FISH -> 0;
-            case SPIDER -> 8;
+            case CAT, DOG -> CAT_DOG_PAWS;
+            case BIRD -> BIRD_PAWS;
+            case FISH -> FISH_PAWS;
+            case SPIDER -> SPIDER_PAWS;
         };
     }
 }

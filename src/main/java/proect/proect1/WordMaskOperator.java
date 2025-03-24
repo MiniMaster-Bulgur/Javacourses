@@ -1,8 +1,11 @@
 package proect.proect1;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class WordMaskOperator {
+    private static final Logger LOGGER = Logger.getLogger(WordMaskOperator.class.getName());
+
     private String word;
     private char[] mask;
     private final StringBuilder usedLetters;
@@ -22,10 +25,11 @@ public class WordMaskOperator {
     }
 
     public void printMask() {
+        StringBuilder maskString = new StringBuilder();
         for (char c : mask) {
-            System.out.print(c + " ");
+            maskString.append(c).append(" ");
         }
-        System.out.println();
+        LOGGER.info(maskString.toString());
     }
 
     public void updateMask(String letter) {

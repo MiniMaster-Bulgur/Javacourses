@@ -1,8 +1,10 @@
 package edu.hw1;
 
-
 public final class Task5 {
 
+    private Task5() {
+        // Private constructor to prevent instantiation
+    }
 
     private static boolean isPalindrome(final String s) {
         int left = 0;
@@ -18,7 +20,6 @@ public final class Task5 {
 
         return true;
     }
-
 
     public static boolean isPalindromeDescendant(final int num) {
         String numStr = Integer.toString(num);

@@ -1,8 +1,18 @@
 package edu.hw1;
 
+import java.util.logging.Logger;
 
 public final class Task2 {
 
+    static {
+        Logger.getLogger(Task2.class.getName());
+    }
+
+    private static final int BASE_TEN = 10;
+
+    private Task2() {
+
+    }
 
     public static int countDigits(final int number) {
         if (number == 0) {
@@ -12,7 +22,7 @@ public final class Task2 {
         int count = 0;
         int tempNumber = number;
         while (tempNumber != 0) {
-            tempNumber /= 10;
+            tempNumber /= BASE_TEN;
             count++;
         }
 
@@ -20,7 +30,8 @@ public final class Task2 {
     }
 
     public static void main(final String[] ignoredArgs) {
-        System.out.println(countDigits(233));
+
     }
 }
+
 

@@ -6,11 +6,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class RandomWordSelector {
+    private static final Logger LOGGER = Logger.getLogger(RandomWordSelector.class.getName());
+
     private final List<String> words = new ArrayList<>();
     private final Random random = new Random();
-    private static final String WORDS_FILE = "C:\\Javacourses\\src\\main\\java\\proect\\proect1\\resourses\\wordsgame.txt";
+    private static final String WORDS_FILE =
+        "C:\\Javacourses\\src\\main\\java\\proect\\proect1\\resourses\\wordsgame.txt";
 
     public RandomWordSelector() {
         loadWordsFromFile();
@@ -28,18 +32,18 @@ public class RandomWordSelector {
             if (words.isEmpty()) {
                 throw new IOException("No words found in file: " + WORDS_FILE);
             }
-            System.out.println("Successfully loaded " + words.size() + " words from file");
+            LOGGER.info("Successfully loaded " + words.size() + " words from file");
         } catch (IOException e) {
-            System.err.println("Error: Cannot read words from file: " + WORDS_FILE);
-            System.err.println("Error details: " + e.getMessage());
-            System.err.println("Please ensure the file exists and is accessible");
+            LOGGER.severe("Error: Cannot read words from file: " + WORDS_FILE);
+            LOGGER.severe("Error details: " + e.getMessage());
+            LOGGER.severe("Please ensure the file exists and is accessible");
             System.exit(1);
         }
     }
 
     public String getRandomLySelectedWord() {
         if (words.isEmpty()) {
-            System.err.println("Fatal error: No words available");
+            LOGGER.severe("Fatal error: No words available");
             System.exit(1);
         }
         return words.get(random.nextInt(words.size()));

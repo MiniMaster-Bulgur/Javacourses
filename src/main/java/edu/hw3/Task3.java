@@ -1,9 +1,15 @@
 package edu.hw3;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Task3 {
+public final class Task3 {
+
+    private Task3() {
+        // Private constructor to prevent instantiation
+    }
+
     public static <T> Map<T, Integer> freqDict(List<T> items) {
         if (items == null) {
             return new HashMap<>();

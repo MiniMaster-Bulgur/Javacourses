@@ -2,9 +2,13 @@ package edu.hw3;
 
 import java.util.Arrays;
 
-public class Task5 {
-    public static String[] sortNames(String[] names, String sortOrder) {
+public final class Task5 {
 
+    private Task5() {
+
+    }
+
+    public static String[] sortNames(String[] names, String sortOrder) {
         if (names == null || names.length == 0) {
             return new String[0];
         }

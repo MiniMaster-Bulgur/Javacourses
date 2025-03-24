@@ -1,8 +1,9 @@
 package edu.hw1;
 
-
 public final class Task4 {
 
+    private Task4() {
+    }
 
     public static String fixString(final String input) {
         char[] chars = input.toCharArray();
@@ -16,3 +17,4 @@ public final class Task4 {
         return new String(chars);
     }
 }
+

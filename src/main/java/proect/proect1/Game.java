@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import java.util.logging.LogRecord;
 
 public class Game {
 
@@ -14,13 +13,18 @@ public class Game {
     private final WordMaskOperator maskOperator = new WordMaskOperator();
     private static final int MAX_MISTAKES = 6;
 
+    private static final String WORD_LABEL = "Слово:";
+    private static final String TOTAL_GUESSED_LETTERS = "Всего угадано букв: %d";
+    private static final String TOTAL_ERRORS = "Всего ошибок: %d";
+    private static final String SEPARATOR = "================";
+
     public Game() {
         LOGGER.setUseParentHandlers(false);
         ConsoleHandler handler = new ConsoleHandler();
         handler.setFormatter(new SimpleFormatter() {
             @Override
-            public String format(LogRecord record) {
-                return record.getMessage() + "\n";
+            public String format(java.util.logging.LogRecord logRecord) {
+                return logRecord.getMessage() + "\n";
             }
         });
         LOGGER.addHandler(handler);
@@ -61,7 +65,7 @@ public class Game {
 
         LOGGER.info("\n=== Новая игра начата ===");
         LOGGER.info(String.format("Длина слова: %d букв", guessedWord.length()));
-        LOGGER.info("Слово: ");
+        LOGGER.info(WORD_LABEL);
         maskOperator.printMask();
 
         while (true) {
@@ -95,16 +99,16 @@ public class Game {
                 correctGuesses++;
                 maskOperator.updateMask(input);
                 LOGGER.info("Правильно!");
-                LOGGER.info("Слово: ");
+                LOGGER.info(WORD_LABEL);
                 maskOperator.printMask();
 
                 if (maskOperator.userWon()) {
                     LOGGER.info("\n=== ПОБЕДА! ===");
                     LOGGER.info("Поздравляем! Вы выиграли!");
                     LOGGER.info("Загаданное слово было: " + guessedWord);
-                    LOGGER.info(String.format("Всего угадано букв: %d", correctGuesses));
-                    LOGGER.info(String.format("Всего ошибок: %d", incorrectGuesses));
-                    LOGGER.info("================");
+                    LOGGER.info(String.format(TOTAL_GUESSED_LETTERS, correctGuesses));
+                    LOGGER.info(String.format(TOTAL_ERRORS, incorrectGuesses));
+                    LOGGER.info(SEPARATOR);
                     return;
                 }
             } else {
@@ -116,9 +120,9 @@ public class Game {
                 if (mistakesCount >= MAX_MISTAKES) {
                     LOGGER.info("\n=== ИГРА ОКОНЧЕНА ===");
                     LOGGER.info("Вы проиграли! Загаданное слово было: " + guessedWord);
-                    LOGGER.info(String.format("Всего угадано букв: %d", correctGuesses));
-                    LOGGER.info(String.format("Всего ошибок: %d", incorrectGuesses));
-                    LOGGER.info("================");
+                    LOGGER.info(String.format(TOTAL_GUESSED_LETTERS, correctGuesses));
+                    LOGGER.info(String.format(TOTAL_ERRORS, incorrectGuesses));
+                    LOGGER.info(SEPARATOR);
                     return;
                 }
             }

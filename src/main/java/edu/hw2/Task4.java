@@ -1,7 +1,8 @@
 package edu.hw2;
 
-public class Task4 {
+public final class Task4 {
     private Task4() {
+
     }
 
     public static CallingInfo callingInfo() {

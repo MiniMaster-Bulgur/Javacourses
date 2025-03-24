@@ -4,16 +4,18 @@ import java.util.logging.Logger;
 
 public record Addition(Expr left, Expr right) implements Expr {
     private static final Logger LOGGER = Logger.getLogger(Addition.class.getName());
+    private static final String PLUS = "+";
 
     @Override
     public double evaluate() {
         double result = left.evaluate() + right.evaluate();
-        LOGGER.info("Evaluating Addition: " + left + " + " + right + " = " + result);
+        LOGGER.info("Evaluating Addition: " + left + " " + PLUS + " " + right + " = " + result);
         return result;
     }
 
     @Override
     public String toString() {
-        return "(" + left + " + " + right + ")";
+        return "(" + left + " " + PLUS + " " + right + ")";
     }
 }
+

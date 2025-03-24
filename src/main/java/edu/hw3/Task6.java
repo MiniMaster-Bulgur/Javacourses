@@ -3,9 +3,9 @@ package edu.hw3;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class Task6 {
+public final class Task6 {
 
-    private PriorityQueue<Equity> equityQueue;
+    private final PriorityQueue<Equity> equityQueue;
 
     public Task6() {
         equityQueue = new PriorityQueue<>(Comparator.comparingDouble(Equity::getPrice).reversed());
@@ -24,7 +24,8 @@ public class Task6 {
     }
 }
 
-class Equity {
+
+public final class Equity {
     private final String name;
     private final double price;
 
@@ -41,3 +42,4 @@ class Equity {
         return price;
     }
 }
+

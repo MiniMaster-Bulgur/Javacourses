@@ -1,8 +1,12 @@
 package edu.hw1;
 
-
 public final class Task1 {
 
+    private static final int SECONDS_PER_MINUTE = 60;
+
+    private Task1() {
+        // Private constructor to prevent instantiation
+    }
 
     public static int minutesToSeconds(final String timeStr) {
         String[] parts = timeStr.split(":");
@@ -20,10 +24,10 @@ public final class Task1 {
             return -1;
         }
 
-        if (seconds >= 60 || minutes < 0 || seconds < 0) {
+        if (seconds >= SECONDS_PER_MINUTE || minutes < 0 || seconds < 0) {
             return -1;
         }
 
-        return minutes * 60 + seconds;
+        return minutes * SECONDS_PER_MINUTE + seconds;
     }
 }

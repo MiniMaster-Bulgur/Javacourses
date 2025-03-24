@@ -1,17 +1,14 @@
 package edu.hw3;
+
 import java.util.Comparator;
 import java.util.Objects;
-import java.util.TreeMap;
 
-public class Task7 {
+public final class Task7 {
 
-    public static void main(String[] ignoredArgs) {
-
-        var tree = new TreeMap<String, String>(new NullSafeComparator());
-
-        tree.put(null, "test");
+    private Task7() {
 
     }
+
 
     public static class NullSafeComparator implements Comparator<String> {
         @Override

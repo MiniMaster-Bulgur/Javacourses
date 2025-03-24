@@ -1,9 +1,21 @@
 package edu.hw4;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Task1 {
+public final class Task1 {
+
+    private static final int HEIGHT_THRESHOLD = 100;
+
+    private Task1() {
+        // Private constructor to prevent instantiation
+    }
+
     // Задача 1
     public static List<Animal> sortByHeight(List<Animal> animals) {
         return animals.stream()
@@ -11,7 +23,7 @@ public class Task1 {
             .toList();
     }
 
-    // Задача 2:
+    // Задача 2
     public static List<Animal> sortByWeightAndSelectTopK(List<Animal> animals, int k) {
         return animals.stream()
             .sorted(Comparator.comparingInt(Animal::getWeight).reversed())
@@ -91,7 +103,7 @@ public class Task1 {
     // Задача 11
     public static List<Animal> getBitingAnimalsAbove100cm(List<Animal> animals) {
         return animals.stream()
-            .filter(a -> a.getBites() && a.getHeight() > 100)
+            .filter(a -> a.getBites() && a.getHeight() > HEIGHT_THRESHOLD)
             .toList();
     }
 
@@ -178,4 +190,5 @@ public class Task1 {
     }
 
 }
+
 

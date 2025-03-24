@@ -1,22 +1,27 @@
 package edu.hw1;
 
+import edu.hw3.Equity;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-
 public final class Task6 {
 
-    private static final Logger LOGGER = Logger.getLogger(Task6.class.getName());
-
-    public static void main(final String[] ignoredArgs) {
-        final int number = 8764;
-        final int steps = kaprekarSteps(number);
-        LOGGER.info("Количество шагов: " + steps);
+    static {
+        Logger.getLogger(Task6.class.getName());
     }
 
+    private static final int KAPREKAR_CONSTANT = 6174;
+
+    Task6() {
+
+    }
+
+    public static void main(final String[] ignoredArgs) {
+
+    }
 
     public static int kaprekarSteps(final int n) {
-        if (n == 6174) {
+        if (n == KAPREKAR_CONSTANT) {
             return 0;
         }
 
@@ -32,5 +37,12 @@ public final class Task6 {
         int nextNumber = desc - asc;
 
         return 1 + kaprekarSteps(nextNumber);
+    }
+
+    public void add(Equity ignoredApple) {
+    }
+
+    public Equity mostValuableEquity() {
+        return null;
     }
 }

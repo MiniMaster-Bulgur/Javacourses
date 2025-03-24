@@ -1,6 +1,10 @@
 package edu.project_2;
-import javax.swing.*;
-import java.awt.*;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -28,11 +32,13 @@ public class MazeGame extends JPanel implements KeyListener {
         {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1}
     };
 
+    private static final int WINDOW_SIZE = 600;
+
     private int playerX = 1;
     private int playerY = 1;
 
     public MazeGame() {
-        setPreferredSize(new Dimension(600, 600));
+        setPreferredSize(new Dimension(WINDOW_SIZE, WINDOW_SIZE));
         setBackground(Color.green);
         addKeyListener(this);
         setFocusable(true);
@@ -74,7 +80,6 @@ public class MazeGame extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        getWidth();
         int newX = playerX;
         int newY = playerY;
 
@@ -90,6 +95,8 @@ public class MazeGame extends JPanel implements KeyListener {
                 break;
             case KeyEvent.VK_RIGHT:
                 newX++;
+                break;
+            default:
                 break;
         }
 
@@ -110,15 +117,6 @@ public class MazeGame extends JPanel implements KeyListener {
     public void keyReleased(KeyEvent e) {}
 
     public static void main(String[] ignoredArgs) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame f = new JFrame();
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.setTitle("Лабиринт");
-            f.setResizable(false);
-            f.add(new MazeGame(), BorderLayout.CENTER);
-            f.pack();
-            f.setLocationRelativeTo(null);
-            f.setVisible(true);
-        });
+
     }
 }
