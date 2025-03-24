@@ -1,16 +1,18 @@
 package edu.hw1;
 
-public class Task8 {
 
-    public boolean knightBoardCapture(int[][] board) {
-        int rows = board.length;
-        int cols = board[0].length;
+public final class Task8 {
+
+
+    public boolean knightBoardCapture(final int[][] board) {
+        final int rows = board.length;
+        final int cols = board[0].length;
 
         if (rows != 8 || cols != 8) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Ошибка: доска должна быть размером 8x8.");
         }
 
-        int[][] moves = {
+        final int[][] moves = {
             {-2, -1}, {-2, 1}, {-1, -2}, {-1, 2},
             {1, -2}, {1, 2}, {2, -1}, {2, 1}
         };
@@ -22,7 +24,8 @@ public class Task8 {
                         int newR = r + move[0];
                         int newC = c + move[1];
 
-                        if (newR >= 0 && newR < rows && newC >= 0 && newC < cols && board[newR][newC] == 1) {
+                        if (newR >= 0 && newR < rows && newC >= 0 && newC < cols &&
+                            board[newR][newC] == 1) {
                             return false;
                         }
                     }

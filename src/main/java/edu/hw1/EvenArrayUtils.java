@@ -4,20 +4,25 @@ import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Утилитарный класс для работы с массивами целых чисел.
+ */
 public final class EvenArrayUtils {
-    private final static Logger LOGGER = LogManager.getLogger();
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private EvenArrayUtils() {
+        // Private constructor to prevent instantiation
     }
 
     /**
-     * Filters an array of integers, returning only the even numbers.
+     * Фильтрует массив целых чисел, возвращая только четные числа.
      *
-     * @param numbers the array of integers to filter
-     * @return an array of even integers from the original array
-     * @throws NullPointerException if the input array is null
+     * @param numbers массив целых чисел для фильтрации
+     * @return массив четных чисел из исходного массива
+     * @throws NullPointerException если входной массив равен null
      */
-    public static int[] filter(int[] numbers) {
+    public static int[] filter(final int[] numbers) {
         Objects.requireNonNull(numbers);
         LOGGER.trace("Filtering an array {}", numbers);
 
@@ -34,13 +39,13 @@ public final class EvenArrayUtils {
     }
 
     /**
-     * Counts the number of even integers in an array of integers.
+     * Подсчитывает количество четных чисел в массиве целых чисел.
      *
-     * @param numbers the array of integers to count
-     * @return the number of even integers in the array
-     * @throws NullPointerException if the input array is null
+     * @param numbers массив целых чисел для подсчета
+     * @return количество четных чисел в массиве
+     * @throws NullPointerException если входной массив равен null
      */
-    public static int count(int[] numbers) {
+    public static int count(final int[] numbers) {
         Objects.requireNonNull(numbers);
 
         int count = 0;

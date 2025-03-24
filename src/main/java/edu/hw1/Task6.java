@@ -1,16 +1,21 @@
 package edu.hw1;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
 
-public class Task6 {
 
-    public static void main(String[] args) {
-        int number = 8764;
-        int steps = kaprekarSteps(number);
-        System.out.println("Количество шагов: " + steps);
+public final class Task6 {
+
+    private static final Logger LOGGER = Logger.getLogger(Task6.class.getName());
+
+    public static void main(final String[] ignoredArgs) {
+        final int number = 8764;
+        final int steps = kaprekarSteps(number);
+        LOGGER.info("Количество шагов: " + steps);
     }
 
-    public static int kaprekarSteps(int n) {
+
+    public static int kaprekarSteps(final int n) {
         if (n == 6174) {
             return 0;
         }
