@@ -21,9 +21,9 @@ public final class Task4 {
             throw new IllegalArgumentException();
         }
 
-        return thousands[number / THOUSAND] +
-            hundreds[(number % THOUSAND) / HUNDRED] +
-            tens[(number % HUNDRED) / TEN] +
-            ones[number % TEN];
+        return thousands[number / THOUSAND]
+            + hundreds[(number % THOUSAND) / HUNDRED]
+            + tens[(number % HUNDRED) / TEN]
+            + ones[number % TEN];
     }
 }

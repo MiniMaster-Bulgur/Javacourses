@@ -1,5 +1,6 @@
-package edu.hw1;
+package edu.hw3;
 import edu.hw3.Equity;
+import edu.hw3.Tack6.Task6;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

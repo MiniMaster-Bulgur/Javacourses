@@ -28,8 +28,8 @@ public class ValidationError {
             return false;
         }
         ValidationError that = (ValidationError) o;
-        return Objects.equals(fieldName, that.fieldName) &&
-            Objects.equals(message, that.message);
+        return Objects.equals(fieldName, that.fieldName)
+            && Objects.equals(message, that.message);
     }
 
     @Override
