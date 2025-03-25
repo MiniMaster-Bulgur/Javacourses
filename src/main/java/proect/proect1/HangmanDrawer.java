@@ -8,31 +8,26 @@ public class HangmanDrawer {
     private static final Logger LOGGER = Logger.getLogger(HangmanDrawer.class.getName());
     private static final int MATRIX_SIZE = 8;
 
-    private static final int ROW_1 = 1;
-    private static final int ROW_2 = 2;
-    private static final int ROW_3 = 3;
-    private static final int ROW_4 = 4;
-    private static final int ROW_5 = 5;
-    private static final int ROW_6 = 6;
+    // Константы для строк
+    private static final int ROW_BASE = 7;
+    private static final int ROW_HEAD = 0;
+    private static final int ROW_BODY = 4;
+    private static final int ROW_LEFT_ARM = 2;
+    private static final int ROW_RIGHT_ARM = 2;
+    private static final int ROW_LEFT_LEG = 5;
+    private static final int ROW_RIGHT_LEG = 5;
 
-    private static final int COL_0 = 0;
-    private static final int COL_1 = 1;
-    private static final int COL_2 = 2;
-    private static final int COL_3 = 3;
-    private static final int COL_5 = 5;
-    private static final int COL_7 = 7;
+    // Константы для столбцов
+    private static final int COL_POST = 2;
+    private static final int COL_HEAD = 4;
+    private static final int COL_BODY = 4;
+    private static final int COL_LEFT_ARM = 3;
+    private static final int COL_RIGHT_ARM = 5;
+    private static final int COL_LEFT_LEG = 4;
+    private static final int COL_RIGHT_LEG = 5;
 
-    // Конфигурационные константы для рисования виселицы
-    private static final int BASE_ROW = 7;
-    private static final int POST_COL = 2;
-    private static final int TOP_ROW = 0;
-    private static final int HEAD_COL = 4;
-    private static final int BODY_COL = 4;
-    private static final int LEFT_ARM_COL = 3;
-    private static final int RIGHT_ARM_COL = 5;
-    private static final int LEFT_LEG_COL = 4;
-    private static final int RIGHT_LEG_COL = 5;
-    private static final ThreadLocal<String> UNEXPECTED_MISTAKES_MESSAGE = new ThreadLocal<>();
+    // Константа для сообщения об ошибке
+    private static final String UNEXPECTED_MISTAKES_MESSAGE = "Unexpected number of mistakes: %d";
 
     private final String[][] hangmanDrawingMatrix = new String[MATRIX_SIZE][MATRIX_SIZE];
 
@@ -56,37 +51,37 @@ public class HangmanDrawer {
     public void updateHangmanDrawingMatrix(int numbarOfMistakes) {
         switch (numbarOfMistakes) {
             case 1 -> {
-                hangmanDrawingMatrix[BASE_ROW][COL_0] = "/";
-                hangmanDrawingMatrix[BASE_ROW][COL_1] = "-";
-                hangmanDrawingMatrix[BASE_ROW][COL_2] = "\\";
-                hangmanDrawingMatrix[ROW_6][POST_COL] = "|";
-                hangmanDrawingMatrix[ROW_5][POST_COL] = "|";
-                hangmanDrawingMatrix[ROW_4][POST_COL] = "|";
-                hangmanDrawingMatrix[ROW_3][POST_COL] = "|";
+                hangmanDrawingMatrix[ROW_BASE][COL_POST - 2] = "/";
+                hangmanDrawingMatrix[ROW_BASE][COL_POST - 1] = "-";
+                hangmanDrawingMatrix[ROW_BASE][COL_POST] = "\\";
+                hangmanDrawingMatrix[ROW_BASE - 1][COL_POST] = "|";
+                hangmanDrawingMatrix[ROW_BASE - 2][COL_POST] = "|";
+                hangmanDrawingMatrix[ROW_BASE - 3][COL_POST] = "|";
+                hangmanDrawingMatrix[ROW_BASE - 4][COL_POST] = "|";
             }
             case 2 -> {
-                hangmanDrawingMatrix[ROW_2][COL_1] = "|";
-                hangmanDrawingMatrix[ROW_1][COL_1] = "|";
-                hangmanDrawingMatrix[TOP_ROW][COL_2] = "_";
+                hangmanDrawingMatrix[ROW_LEFT_ARM][COL_POST - 1] = "|";
+                hangmanDrawingMatrix[ROW_LEFT_ARM - 1][COL_POST - 1] = "|";
+                hangmanDrawingMatrix[ROW_HEAD][COL_POST] = "_";
             }
             case 3 -> {
-                hangmanDrawingMatrix[TOP_ROW][COL_3] = "_";
-                hangmanDrawingMatrix[TOP_ROW][COL_5] = "_";
-                hangmanDrawingMatrix[TOP_ROW][HEAD_COL] = "_";
-                hangmanDrawingMatrix[ROW_1][COL_7] = "|";
+                hangmanDrawingMatrix[ROW_HEAD][COL_HEAD - 1] = "_";
+                hangmanDrawingMatrix[ROW_HEAD][COL_HEAD + 1] = "_";
+                hangmanDrawingMatrix[ROW_HEAD][COL_HEAD] = "_";
+                hangmanDrawingMatrix[ROW_LEFT_ARM - 1][COL_POST + 5] = "|";
             }
             case 4 -> {
-                hangmanDrawingMatrix[ROW_2][LEFT_ARM_COL] = "(";
-                hangmanDrawingMatrix[ROW_2][RIGHT_ARM_COL] = ")";
-                hangmanDrawingMatrix[ROW_3][LEFT_ARM_COL] = "/";
-                hangmanDrawingMatrix[ROW_3][RIGHT_ARM_COL] = "\\";
+                hangmanDrawingMatrix[ROW_LEFT_ARM][COL_LEFT_ARM] = "(";
+                hangmanDrawingMatrix[ROW_LEFT_ARM][COL_RIGHT_ARM] = ")";
+                hangmanDrawingMatrix[ROW_RIGHT_ARM][COL_LEFT_ARM] = "/";
+                hangmanDrawingMatrix[ROW_RIGHT_ARM][COL_RIGHT_ARM] = "\\";
             }
             case 5 -> {
-                hangmanDrawingMatrix[ROW_4][BODY_COL] = "|";
-                hangmanDrawingMatrix[ROW_5][LEFT_LEG_COL] = "/";
-                hangmanDrawingMatrix[ROW_5][RIGHT_LEG_COL] = "\\";
+                hangmanDrawingMatrix[ROW_BODY][COL_BODY] = "|";
+                hangmanDrawingMatrix[ROW_LEFT_LEG][COL_LEFT_LEG] = "/";
+                hangmanDrawingMatrix[ROW_RIGHT_LEG][COL_RIGHT_LEG] = "\\";
             }
-            default -> LOGGER.warning(String.format(UNEXPECTED_MISTAKES_MESSAGE.get(), numbarOfMistakes));
+            default -> LOGGER.warning(String.format(UNEXPECTED_MISTAKES_MESSAGE, numbarOfMistakes));
         }
     }
 
