@@ -7,7 +7,6 @@ public class StockMarketImpl implements StockMarket {
     private final PriorityQueue<Stock> stockQueue;
 
     public StockMarketImpl() {
-        // Создаем PriorityQueue, которая упорядочивает акции по цене в порядке убывания
         this.stockQueue = new PriorityQueue<>(Comparator.comparingDouble(Stock::getPrice).reversed());
     }
 

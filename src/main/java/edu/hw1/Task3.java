@@ -3,7 +3,6 @@ package edu.hw1;
 public final class Task3 {
 
     private Task3() {
-        // Private constructor to prevent instantiation
     }
 
     public static boolean isNestable(final int[] a1, final int[] a2) {

@@ -8,7 +8,7 @@ public final class Task4 {
     private static final int TEN = 10;
 
     private Task4() {
-        // Private constructor to prevent instantiation
+
     }
 
     public static String convertToRoman(int number) {

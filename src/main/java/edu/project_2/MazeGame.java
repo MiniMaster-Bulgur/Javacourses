@@ -9,6 +9,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MazeGame extends JPanel implements KeyListener {
+    public int getPlayerX() {
+        return playerX;
+    }
+
+    public int getPlayerY() {
+        return playerY;
+    }
     private static final int[][] MAZE = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
         {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},

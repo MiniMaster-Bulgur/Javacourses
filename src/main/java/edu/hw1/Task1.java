@@ -5,7 +5,7 @@ public final class Task1 {
     private static final int SECONDS_PER_MINUTE = 60;
 
     private Task1() {
-        // Private constructor to prevent instantiation
+
     }
 
     public static int minutesToSeconds(final String timeStr) {

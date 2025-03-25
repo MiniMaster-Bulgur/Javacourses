@@ -3,7 +3,6 @@ package edu.hw1;
 public final class Task5 {
 
     private Task5() {
-        // Private constructor to prevent instantiation
     }
 
     private static boolean isPalindrome(final String s) {

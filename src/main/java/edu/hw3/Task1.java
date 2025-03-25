@@ -10,7 +10,6 @@ public final class Task1 {
     private static final int ALPHABET_SIZE = 25;
 
     private Task1() {
-        // Private constructor to prevent instantiation
     }
 
     static {
