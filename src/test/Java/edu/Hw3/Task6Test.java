@@ -1,27 +1,55 @@
-package edu.hw3;
-import edu.hw3.Equity;
-import edu.hw3.Tack6.Task6;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+package edu.Hw3;
 
-public class Task6Test {
+import static org.junit.jupiter.api.Assertions.*;
+import edu.hw3.Task6.Stock;
+import edu.hw3.Task6.StockMarket;
+import edu.hw3.Task6.StockMarketImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class StockMarketImplTest {
+
+    private StockMarket stockMarket;
+    private Stock stock1;
+    private Stock stock2;
+    private Stock stock3;
+
+    @BeforeEach
+    void setUp() {
+        stockMarket = new StockMarketImpl();
+        stock1 = new Stock("Stock1", 100.0);
+        stock2 = new Stock("Stock2", 200.0);
+        stock3 = new Stock("Stock3", 150.0);
+    }
 
     @Test
-    public void testMostValuableEquity() {
-        Task6 market = new Task6();
+    void testAddAndMostValuableStock() {
+        stockMarket.add(stock1);
+        stockMarket.add(stock2);
+        assertEquals(stock2, stockMarket.mostValuableStock());
+    }
 
-        Equity apple = new Equity("Apple", 150.0);
-        Equity google = new Equity("Google", 2800.0);
-        Equity amazon = new Equity("Amazon", 3400.0);
+    @Test
+    void testRemove() {
+        stockMarket.add(stock1);
+        stockMarket.add(stock2);
+        stockMarket.remove(stock2);
+        assertEquals(stock1, stockMarket.mostValuableStock());
+    }
 
-        market.add(apple);
-        market.add(google);
-        market.add(amazon);
+    @Test
+    void testMostValuableStockEmpty() {
+        assertNull(stockMarket.mostValuableStock());
+    }
 
-        assertEquals("Amazon", market.mostValuableEquity().getName());
-
-        market.remove(amazon);
-
-        assertEquals("Google", market.mostValuableEquity().getName());
+    @Test
+    void testMultipleStocks() {
+        stockMarket.add(stock1);
+        stockMarket.add(stock2);
+        stockMarket.add(stock3);
+        assertEquals(stock2, stockMarket.mostValuableStock());
+        stockMarket.remove(stock2);
+        assertEquals(stock3, stockMarket.mostValuableStock());
     }
 }
+
