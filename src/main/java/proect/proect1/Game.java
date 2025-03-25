@@ -110,7 +110,7 @@ public final class Game {
                     LOGGER.info(String.format(TOTAL_GUESSED_LETTERS, correctGuesses));
                     LOGGER.info(String.format(TOTAL_ERRORS, incorrectGuesses));
                     LOGGER.info(SEPARATOR);
-                    break; // Завершаем цикл при победе
+                    break;
                 }
             } else {
                 incorrectGuesses++;
@@ -124,7 +124,7 @@ public final class Game {
                     LOGGER.info(String.format(TOTAL_GUESSED_LETTERS, correctGuesses));
                     LOGGER.info(String.format(TOTAL_ERRORS, incorrectGuesses));
                     LOGGER.info(SEPARATOR);
-                    break; // Завершаем цикл при поражении
+                    break;
                 }
             }
         }
@@ -132,7 +132,6 @@ public final class Game {
         return new Result(mistakesCount, correctGuesses); // Возвращаем результат игры
     }
 
-    // Внутренний класс для хранения результатов игры
     public static class Result {
         private final int mistakesCount;
         private final int correctGuesses;
