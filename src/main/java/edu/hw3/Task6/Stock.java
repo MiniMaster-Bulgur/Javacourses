@@ -24,7 +24,9 @@ public class Stock implements Comparable<Stock> {
 
     @Override
     public String toString() {
-        return String.format("Stock{name='%s', price=%.2f}", name, price);
+        return "Stock{" +
+            "name='" + name + '\'' +
+            ", price=" + price +
+            '}';
     }
-
 }
