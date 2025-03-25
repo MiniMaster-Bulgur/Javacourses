@@ -24,9 +24,9 @@ public class Stock implements Comparable<Stock> {
 
     @Override
     public String toString() {
-        return "Stock{" +
-            "name='" + name + '\'' +
-            ", price=" + price +
-            '}';
+        return "Stock{"
+            + "name='" + name + '\''
+            + ", price=" + price
+            + '}';
     }
 }

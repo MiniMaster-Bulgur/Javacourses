@@ -5,8 +5,14 @@ import java.util.logging.Logger;
 
 public class Task6 {
 
+    private static final int KAPREKAR_CONSTANT = 6174;
+
     static {
         Logger.getLogger(Task6.class.getName());
+    }
+
+    private Task6() {
+        throw new UnsupportedOperationException("Это служебный класс, и его экземпляр не может быть создан");
     }
 
     public static int countK(int n) {
@@ -14,23 +20,18 @@ public class Task6 {
     }
 
     private static int countKHelper(int n, int steps) {
-        if (n == 6174) {
+        if (n == KAPREKAR_CONSTANT) {
             return steps;
         }
 
-        // Преобразуем число в строку для сортировки цифр
-        String numStr = String.format("%04d", n); // Убедимся, что число имеет 4 цифры
+        String numStr = String.format("%04d", n);
 
-        // Формируем число с цифрами в порядке убывания
         String descending = sortDescending(numStr);
 
-        // Формируем число с цифрами в порядке возрастания
         String ascending = sortAscending(numStr);
 
-        // Вычисляем разность
         int nextNumber = Integer.parseInt(descending) - Integer.parseInt(ascending);
 
-        // Рекурсивно вызываем функцию для следующего числа
         return countKHelper(nextNumber, steps + 1);
     }
 

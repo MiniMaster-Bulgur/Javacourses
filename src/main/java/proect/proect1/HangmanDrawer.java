@@ -11,7 +11,6 @@ public class HangmanDrawer {
     private static final Logger LOGGER = Logger.getLogger(HangmanDrawer.class.getName());
     private static final int MATRIX_SIZE = 8;
 
-    // Константы для строк и столбцов
     private static int BASE_ROW;
     private static int POST_COL;
     private static int TOP_ROW;
@@ -22,7 +21,6 @@ public class HangmanDrawer {
     private static int LEFT_LEG_COL;
     private static int RIGHT_LEG_COL;
 
-    // Константа для сообщения об ошибке
     private static final String UNEXPECTED_MISTAKES_MESSAGE = "Unexpected number of mistakes: %d";
 
     private final String[][] hangmanDrawingMatrix;
@@ -68,8 +66,8 @@ public class HangmanDrawer {
         LOGGER.info(hangmanDrawing.toString());
     }
 
-    public void updateHangmanDrawingMatrix(int numbarOfMistakes) {
-        switch (numbarOfMistakes) {
+    public void updateHangmanDrawingMatrix(int numberOfMistakes) {
+        switch (numberOfMistakes) {
             case 1 -> {
                 hangmanDrawingMatrix[BASE_ROW][POST_COL - 2] = "/";
                 hangmanDrawingMatrix[BASE_ROW][POST_COL - 1] = "-";
@@ -101,7 +99,7 @@ public class HangmanDrawer {
                 hangmanDrawingMatrix[LEFT_LEG_COL][LEFT_LEG_COL] = "/";
                 hangmanDrawingMatrix[RIGHT_LEG_COL][RIGHT_LEG_COL] = "\\";
             }
-            default -> LOGGER.warning(String.format(UNEXPECTED_MISTAKES_MESSAGE, numbarOfMistakes));
+            default -> LOGGER.warning(String.format(UNEXPECTED_MISTAKES_MESSAGE, numberOfMistakes));
         }
     }
 
