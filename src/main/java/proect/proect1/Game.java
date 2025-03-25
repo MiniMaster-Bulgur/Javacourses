@@ -53,24 +53,6 @@ public final class Game {
         }
     }
 
-    public static class Result {
-        private final int mistakesCount;
-        private final int correctGuesses;
-
-        public Result(int mistakesCount, int correctGuesses) {
-            this.mistakesCount = mistakesCount;
-            this.correctGuesses = correctGuesses;
-        }
-
-        public int getMistakesCount() {
-            return mistakesCount;
-        }
-
-        public int getCorrectGuesses() {
-            return correctGuesses;
-        }
-    }
-
     public Result playGame(Scanner scanner) {
         int mistakesCount = 0;
         int correctGuesses = 0;
@@ -148,5 +130,24 @@ public final class Game {
         }
 
         return new Result(mistakesCount, correctGuesses); // Возвращаем результат игры
+    }
+
+    // Внутренний класс для хранения результатов игры
+    public static class Result {
+        private final int mistakesCount;
+        private final int correctGuesses;
+
+        public Result(int mistakesCount, int correctGuesses) {
+            this.mistakesCount = mistakesCount;
+            this.correctGuesses = correctGuesses;
+        }
+
+        public int getMistakesCount() {
+            return mistakesCount;
+        }
+
+        public int getCorrectGuesses() {
+            return correctGuesses;
+        }
     }
 }
