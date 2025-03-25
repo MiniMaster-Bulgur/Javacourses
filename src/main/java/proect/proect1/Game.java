@@ -5,13 +5,13 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class Game {
+public final class Game {
 
+    public static final int MAX_MISTAKES = 6;
     private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
     private final HangmanDrawer hangmanDrawer = new HangmanDrawer();
     private final RandomWordSelector wordSelector = new RandomWordSelector();
     private final WordMaskOperator maskOperator = new WordMaskOperator();
-    private static final int MAX_MISTAKES = 6;
 
     private static final String WORD_LABEL = "Слово:";
     private static final String TOTAL_GUESSED_LETTERS = "Всего угадано букв: %d";
@@ -53,7 +53,25 @@ public class Game {
         }
     }
 
-    private void playGame(Scanner scanner) {
+    public static class Result {
+        private final int mistakesCount;
+        private final int correctGuesses;
+
+        public Result(int mistakesCount, int correctGuesses) {
+            this.mistakesCount = mistakesCount;
+            this.correctGuesses = correctGuesses;
+        }
+
+        public int getMistakesCount() {
+            return mistakesCount;
+        }
+
+        public int getCorrectGuesses() {
+            return correctGuesses;
+        }
+    }
+
+    public Result playGame(Scanner scanner) {
         int mistakesCount = 0;
         int correctGuesses = 0;
         int incorrectGuesses = 0;
@@ -110,7 +128,7 @@ public class Game {
                     LOGGER.info(String.format(TOTAL_GUESSED_LETTERS, correctGuesses));
                     LOGGER.info(String.format(TOTAL_ERRORS, incorrectGuesses));
                     LOGGER.info(SEPARATOR);
-                    return;
+                    break; // Завершаем цикл при победе
                 }
             } else {
                 incorrectGuesses++;
@@ -124,33 +142,11 @@ public class Game {
                     LOGGER.info(String.format(TOTAL_GUESSED_LETTERS, correctGuesses));
                     LOGGER.info(String.format(TOTAL_ERRORS, incorrectGuesses));
                     LOGGER.info(SEPARATOR);
-                    return;
+                    break; // Завершаем цикл при поражении
                 }
             }
         }
-    }
 
-    public static final class GameResult {
-        private final int mistakesCount;
-        private final int correctGuesses;
-        private final int incorrectGuesses;
-
-        public GameResult(int mistakesCount, int correctGuesses, int incorrectGuesses) {
-            this.mistakesCount = mistakesCount;
-            this.correctGuesses = correctGuesses;
-            this.incorrectGuesses = incorrectGuesses;
-        }
-
-        public int getMistakesCount() {
-            return mistakesCount;
-        }
-
-        public int getCorrectGuesses() {
-            return correctGuesses;
-        }
-
-        public int getIncorrectGuesses() {
-            return incorrectGuesses;
-        }
+        return new Result(mistakesCount, correctGuesses); // Возвращаем результат игры
     }
 }

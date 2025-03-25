@@ -16,6 +16,7 @@ public class MazeGame extends JPanel implements KeyListener {
     public int getPlayerY() {
         return playerY;
     }
+
     private static final int[][] MAZE = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
         {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},
