@@ -11,15 +11,15 @@ public class HangmanDrawer {
     private static final Logger LOGGER = Logger.getLogger(HangmanDrawer.class.getName());
     private static final int MATRIX_SIZE = 8;
 
-    private static int BASE_ROW;
-    private static int POST_COL;
-    private static int TOP_ROW;
-    private static int HEAD_COL;
-    private static int BODY_COL;
-    private static int LEFT_ARM_COL;
-    private static int RIGHT_ARM_COL;
-    private static int LEFT_LEG_COL;
-    private static int RIGHT_LEG_COL;
+    private static int baseRow;
+    private static int postCol;
+    private static int topRow;
+    private static int headCol;
+    private static int bodyCol;
+    private static int leftArmCol;
+    private static int rightArmCol;
+    private static int leftLegCol;
+    private static int rightLegCol;
 
     private static final String UNEXPECTED_MISTAKES_MESSAGE = "Unexpected number of mistakes: %d";
 
@@ -39,17 +39,17 @@ public class HangmanDrawer {
                 return;
             }
             properties.load(input);
-            BASE_ROW = Integer.parseInt(properties.getProperty("BASE_ROW"));
-            POST_COL = Integer.parseInt(properties.getProperty("POST_COL"));
-            TOP_ROW = Integer.parseInt(properties.getProperty("TOP_ROW"));
-            HEAD_COL = Integer.parseInt(properties.getProperty("HEAD_COL"));
-            BODY_COL = Integer.parseInt(properties.getProperty("BODY_COL"));
-            LEFT_ARM_COL = Integer.parseInt(properties.getProperty("LEFT_ARM_COL"));
-            RIGHT_ARM_COL = Integer.parseInt(properties.getProperty("RIGHT_ARM_COL"));
-            LEFT_LEG_COL = Integer.parseInt(properties.getProperty("LEFT_LEG_COL"));
-            RIGHT_LEG_COL = Integer.parseInt(properties.getProperty("RIGHT_LEG_COL"));
+            baseRow = Integer.parseInt(properties.getProperty("BASE_ROW"));
+            postCol = Integer.parseInt(properties.getProperty("POST_COL"));
+            topRow = Integer.parseInt(properties.getProperty("TOP_ROW"));
+            headCol = Integer.parseInt(properties.getProperty("HEAD_COL"));
+            bodyCol = Integer.parseInt(properties.getProperty("BODY_COL"));
+            leftArmCol = Integer.parseInt(properties.getProperty("LEFT_ARM_COL"));
+            rightArmCol = Integer.parseInt(properties.getProperty("RIGHT_ARM_COL"));
+            leftLegCol = Integer.parseInt(properties.getProperty("LEFT_LEG_COL"));
+            rightLegCol = Integer.parseInt(properties.getProperty("RIGHT_LEG_COL"));
         } catch (IOException ex) {
-            LOGGER.severe("Error loading config file: " + ex.getMessage());
+            LOGGER.severe("Error loading config file: %s".formatted(ex.getMessage()));
         }
     }
 
@@ -66,42 +66,53 @@ public class HangmanDrawer {
         LOGGER.info(hangmanDrawing.toString());
     }
 
+    private static final int baseRowOffset = 3;
+    private static final int postColOffset = 4;
+    private static final int headOffset = 5;
+
     public void updateHangmanDrawingMatrix(int numberOfMistakes) {
-        switch (numberOfMistakes) {
+        switch (headCol) {
+
             case 1 -> {
-                hangmanDrawingMatrix[BASE_ROW][POST_COL - 2] = "/";
-                hangmanDrawingMatrix[BASE_ROW][POST_COL - 1] = "-";
-                hangmanDrawingMatrix[BASE_ROW][POST_COL] = "\\";
-                hangmanDrawingMatrix[BASE_ROW - 1][POST_COL] = "|";
-                hangmanDrawingMatrix[BASE_ROW - 2][POST_COL] = "|";
-                hangmanDrawingMatrix[BASE_ROW - 3][POST_COL] = "|";
-                hangmanDrawingMatrix[BASE_ROW - 4][POST_COL] = "|";
+                hangmanDrawingMatrix[baseRow][postCol - 2] = "/";
+                hangmanDrawingMatrix[baseRow][postCol - 1] = "-";
+                hangmanDrawingMatrix[baseRow][postCol] = "\\";
+                hangmanDrawingMatrix[baseRow - 1][postCol] = "|";
+                hangmanDrawingMatrix[baseRow - 2][postCol] = "|";
+                hangmanDrawingMatrix[baseRow - baseRowOffset][postCol] = "|";
+                hangmanDrawingMatrix[baseRow - postColOffset][postCol] = "|";
             }
+
             case 2 -> {
-                hangmanDrawingMatrix[LEFT_ARM_COL][POST_COL - 1] = "|";
-                hangmanDrawingMatrix[LEFT_ARM_COL - 1][POST_COL - 1] = "|";
-                hangmanDrawingMatrix[TOP_ROW][POST_COL] = "_";
+                hangmanDrawingMatrix[leftArmCol][postCol - 1] = "|";
+                hangmanDrawingMatrix[leftArmCol - 1][postCol - 1] = "|";
+                hangmanDrawingMatrix[topRow][postCol] = "_";
             }
+
             case 3 -> {
-                hangmanDrawingMatrix[TOP_ROW][HEAD_COL - 1] = "_";
-                hangmanDrawingMatrix[TOP_ROW][HEAD_COL + 1] = "_";
-                hangmanDrawingMatrix[TOP_ROW][HEAD_COL] = "_";
-                hangmanDrawingMatrix[LEFT_ARM_COL - 1][POST_COL + 5] = "|";
+                hangmanDrawingMatrix[topRow][headCol - 1] = "_";
+                hangmanDrawingMatrix[topRow][headCol + 1] = "_";
+                hangmanDrawingMatrix[topRow][headCol] = "_";
+                hangmanDrawingMatrix[leftArmCol - 1][postCol + headOffset] = "|";
             }
+
             case 4 -> {
-                hangmanDrawingMatrix[LEFT_ARM_COL][LEFT_ARM_COL] = "(";
-                hangmanDrawingMatrix[LEFT_ARM_COL][RIGHT_ARM_COL] = ")";
-                hangmanDrawingMatrix[RIGHT_ARM_COL][LEFT_ARM_COL] = "/";
-                hangmanDrawingMatrix[RIGHT_ARM_COL][RIGHT_ARM_COL] = "\\";
+                hangmanDrawingMatrix[leftArmCol][leftArmCol] = "(";
+                hangmanDrawingMatrix[leftArmCol][rightArmCol] = ")";
+                hangmanDrawingMatrix[rightArmCol][leftArmCol] = "/";
+                hangmanDrawingMatrix[rightArmCol][rightArmCol] = "\\";
             }
+
             case 5 -> {
-                hangmanDrawingMatrix[BODY_COL][BODY_COL] = "|";
-                hangmanDrawingMatrix[LEFT_LEG_COL][LEFT_LEG_COL] = "/";
-                hangmanDrawingMatrix[RIGHT_LEG_COL][RIGHT_LEG_COL] = "\\";
+                hangmanDrawingMatrix[bodyCol][bodyCol] = "|";
+                hangmanDrawingMatrix[leftLegCol][leftLegCol] = "/";
+                hangmanDrawingMatrix[rightLegCol][rightLegCol] = "\\";
             }
+
+
             default -> LOGGER.warning(String.format(UNEXPECTED_MISTAKES_MESSAGE, numberOfMistakes));
         }
-    }
+}
 
     public void clearDrawing() {
         for (String[] drawingMatrixRow : hangmanDrawingMatrix) {
