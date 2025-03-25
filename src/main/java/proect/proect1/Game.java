@@ -53,10 +53,36 @@ public class Game {
         }
     }
 
+
+    public static final class GameResult {
+        private final int mistakesCount;
+        private final int correctGuesses;
+        private final int incorrectGuesses;
+
+        public GameResult(int mistakesCount, int correctGuesses, int incorrectGuesses) {
+            this.mistakesCount = mistakesCount;
+            this.correctGuesses = correctGuesses;
+            this.incorrectGuesses = incorrectGuesses;
+        }
+
+        public int getMistakesCount() {
+            return mistakesCount;
+        }
+
+        public int getCorrectGuesses() {
+            return correctGuesses;
+        }
+
+        public int getIncorrectGuesses() {
+            return incorrectGuesses;
+        }
+    }
+
     private void playGame(Scanner scanner) {
         int mistakesCount = 0;
         int correctGuesses = 0;
         int incorrectGuesses = 0;
+
         maskOperator.clearBuffer();
         hangmanDrawer.clearDrawing();
 

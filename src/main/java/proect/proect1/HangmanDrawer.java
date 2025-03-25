@@ -66,16 +66,16 @@ public class HangmanDrawer {
         LOGGER.info(hangmanDrawing.toString());
     }
 
-    private static final int one = 1;
-    private static final int two = 2;
-    private static final int three = 3;
-    private static final int fore = 4;
-    private static final int five = 5;
+    private static final int ONE = 1;
+    private static final int TWO = 2;
+    private static final int THREE = 3;
+    private static final int FOUR = 4; // Обратите внимание на исправление "fore" на "four"
+    private static final int FIVE = 5;
 
     public void updateHangmanDrawingMatrix(int numberOfMistakes) {
         switch (headCol) {
 
-            case one -> {
+            case ONE -> {
                 hangmanDrawingMatrix[baseRow][postCol - 2] = "/";
                 hangmanDrawingMatrix[baseRow][postCol - 1] = "-";
                 hangmanDrawingMatrix[baseRow][postCol] = "\\";
@@ -85,27 +85,27 @@ public class HangmanDrawer {
                 hangmanDrawingMatrix[baseRow][postCol] = "|";
             }
 
-            case two -> {
+            case TWO -> {
                 hangmanDrawingMatrix[leftArmCol][postCol - 1] = "|";
                 hangmanDrawingMatrix[leftArmCol - 1][postCol - 1] = "|";
                 hangmanDrawingMatrix[topRow][postCol] = "_";
             }
 
-            case three -> {
+            case THREE -> {
                 hangmanDrawingMatrix[topRow][headCol - 1] = "_";
                 hangmanDrawingMatrix[topRow][headCol + 1] = "_";
                 hangmanDrawingMatrix[topRow][headCol] = "_";
                 hangmanDrawingMatrix[leftArmCol - 1][postCol] = "|";
             }
 
-            case fore -> {
+            case FOUR -> {
                 hangmanDrawingMatrix[leftArmCol][leftArmCol] = "(";
                 hangmanDrawingMatrix[leftArmCol][rightArmCol] = ")";
                 hangmanDrawingMatrix[rightArmCol][leftArmCol] = "/";
                 hangmanDrawingMatrix[rightArmCol][rightArmCol] = "\\";
             }
 
-            case five -> {
+            case FIVE -> {
                 hangmanDrawingMatrix[bodyCol][bodyCol] = "|";
                 hangmanDrawingMatrix[leftLegCol][leftLegCol] = "/";
                 hangmanDrawingMatrix[rightLegCol][rightLegCol] = "\\";
